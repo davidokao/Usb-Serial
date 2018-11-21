@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity{
     private static UsbService usbService;
     private TextView display;
     private EditText editText;
-    private CheckBox box9600, box38400;
+    private CheckBox box38400, box9600;
     private static TextToSpeech mTextToSpeech;
     private MyHandler mHandler;
     private static Timer timer = new Timer();
@@ -108,18 +108,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        box9600 = (CheckBox) findViewById(R.id.checkBox);
-        box9600.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(box9600.isChecked())
-                    box38400.setChecked(false);
-                else
-                    box38400.setChecked(true);
-            }
-        });
-
-        box38400 = (CheckBox) findViewById(R.id.checkBox2);
+        box38400 = (CheckBox) findViewById(R.id.checkBox);
         box38400.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -130,14 +119,25 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        box9600 = (CheckBox) findViewById(R.id.checkBox2);
+        box9600.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(box9600.isChecked())
+                    box38400.setChecked(false);
+                else
+                    box38400.setChecked(true);
+            }
+        });
+
         Button baudrateButton = (Button) findViewById(R.id.buttonBaudrate);
         baudrateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(box9600.isChecked())
-                    usbService.changeBaudRate(9600);
-                else
+                if(box38400.isChecked())
                     usbService.changeBaudRate(38400);
+                else
+                    usbService.changeBaudRate(9600);
             }
         });
     }
